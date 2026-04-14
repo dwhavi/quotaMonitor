@@ -1,8 +1,10 @@
 import * as https from 'https';
 
 export interface QuotaInfo {
-  balance: number;
-  balanceStr: string;
+  totalBalance: string;
+  grantedBalance: string;
+  toppedBalance: string;
+  isAvailable: boolean;
   updatedAt: string;
 }
 
@@ -31,13 +33,17 @@ export class QuotaApiClient {
         res.on('end', () => {
           try {
             const json = JSON.parse(data);
-            if (json.error_code) {
-              reject(new Error(json.error_msg || 'API error'));
+            // API 응답: { code: "success", data: { total_balance, granted_balance, topped_balance, is_available }, msg: "" }
+            if (json.code !== 'success') {
+              reject(new Error(json.msg || 'API 오류'));
               return;
             }
+            const d = json.data || {};
             resolve({
-              balance: json.data?.balance ?? 0,
-              balanceStr: json.data?.balance_str ?? '0',
+              totalBalance: d.total_balance ?? '0',
+              grantedBalance: d.granted_balance ?? '0',
+              toppedBalance: d.topped_balance ?? '0',
+              isAvailable: d.is_available ?? false,
               updatedAt: new Date().toLocaleTimeString('ko-KR'),
             });
           } catch {

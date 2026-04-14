@@ -43,8 +43,10 @@ export class StatusBarManager {
 
     try {
       this.currentQuota = await this.apiClient.fetchQuota();
-      this.statusBarItem.text = `$(check) GLM: ¥${this.currentQuota.balanceStr}`;
-      this.statusBarItem.tooltip = `잔액: ¥${this.currentQuota.balanceStr}\n갱신: ${this.currentQuota.updatedAt}`;
+      const q = this.currentQuota;
+      const avail = q.isAvailable ? '✓' : '✗';
+      this.statusBarItem.text = `$(check) GLM: ¥${q.totalBalance} ${avail}`;
+      this.statusBarItem.tooltip = `총 잔액: ¥${q.totalBalance}\n충전: ¥${q.toppedBalance} / 지급: ¥${q.grantedBalance}\n갱신: ${q.updatedAt}`;
     } catch (err) {
       this.statusBarItem.text = '$(error) GLM: 조회 실패';
       this.statusBarItem.tooltip = `오류: ${err instanceof Error ? err.message : '알 수 없음'}`;

@@ -5,7 +5,7 @@ export class QuotaPanel {
 
   show(
     context: vscode.ExtensionContext,
-    quotaData: { balanceStr: string; updatedAt: string } | null,
+    quotaData: { totalBalance: string; grantedBalance: string; toppedBalance: string; isAvailable: boolean; updatedAt: string } | null,
     apiKeySet: boolean
   ) {
     if (this.panel) {
@@ -24,7 +24,7 @@ export class QuotaPanel {
   }
 
   private getHtml(
-    quota: { balanceStr: string; updatedAt: string } | null,
+    quota: { totalBalance: string; grantedBalance: string; toppedBalance: string; isAvailable: boolean; updatedAt: string } | null,
     apiKeySet: boolean
   ): string {
     const body = !apiKeySet
@@ -32,7 +32,10 @@ export class QuotaPanel {
          <p>Ctrl+Shift+P → <b>GLM: API 키 설정</b>을 실행해 주세요.</p>`
       : quota
         ? `<table>
-             <tr><td class="label">잔액</td><td class="value">¥${quota.balanceStr}</td></tr>
+             <tr><td class="label">총 잔액</td><td class="value">¥${quota.totalBalance}</td></tr>
+             <tr><td class="label">충전 금액</td><td class="value">¥${quota.toppedBalance}</td></tr>
+             <tr><td class="label">지급 크레딧</td><td class="value">¥${quota.grantedBalance}</td></tr>
+             <tr><td class="label">서비스 상태</td><td class="value">${quota.isAvailable ? '✓ 이용 가능' : '✗ 이용 불가'}</td></tr>
              <tr><td class="label">갱신 시간</td><td class="value">${quota.updatedAt}</td></tr>
            </table>`
         : `<p>데이터를 불러오지 못했습니다.</p>
@@ -50,7 +53,7 @@ export class QuotaPanel {
   .note { margin-top: 16px; font-size: 0.85em; color: var(--vscode-descriptionForeground); }
 </style></head>
 <body>
-  <h2>$(robot) GLM 잔여량</h2>
+  <h2>GLM 잔여량</h2>
   ${body}
   <p class="note">엔드포인트: open.bigmodel.cn/api/paas/v4/billing/query_balance</p>
   <p class="note">5분마다 자동 갱신됩니다. 상태 표시줄 클릭으로 수동 갱신.</p>

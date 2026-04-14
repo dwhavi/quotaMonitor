@@ -9,3 +9,5 @@
 |------|------|
 | `docs/quotaMonitor.md` | 프로젝트 설명, 구조, 사용법 |
 | `docs/savepoint/savepoint-1.md` | 초기 세팅 완료 상태 |
+| `docs/savepoint/savepoint-2.md` | VSIX 패키징 및 GitHub 푸시 완료 |
+| `docs/savepoint/savepoint-3.md` | API 응답 수정 + 404 원인 분석 완료 (현재) |
