@@ -1,0 +1,42 @@
+{
+  "name": "glm-quota-monitor",
+  "displayName": "GLM Quota Monitor",
+  "description": "지푸AI(GLM) API 잔여 사용량을 VSCode 상태 표시줄에서 확인합니다",
+  "version": "0.1.0",
+  "publisher": "dwhavi",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "glm-quota-monitor.showQuota",
+        "title": "GLM: 잔여량 확인"
+      },
+      {
+        "command": "glm-quota-monitor.setApiKey",
+        "title": "GLM: API 키 설정"
+      },
+      {
+        "command": "glm-quota-monitor.refresh",
+        "title": "GLM: 새로고침"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.3.0"
+  }
+}
